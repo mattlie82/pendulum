@@ -10,6 +10,25 @@ import numpy as np
 
 # === Core functionality ===
 
+class FrameReadError(Exception):
+    pass
+
+def get_frame(input_video, frame = 0):
+    cap = cv2.VideoCapture(input_video)
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+    if frame_number < 0 or frame_number >= total_frames:
+        raise ValueError(f"Frame number must be between 0 and {total_frames-1}")
+
+    cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
+    
+    ret, frame = cap.read()
+    if not ret:
+        raise FrameReadError(f"Could not read frame {frame_number}")
+   
+    cap.release()
+    return frame    
+
 def detect_color_object(frame, lower=(0, 50, 50), upper=(179, 255, 255)):
     # Convert to HSV color space
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
