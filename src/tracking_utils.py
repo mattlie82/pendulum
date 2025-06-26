@@ -13,7 +13,7 @@ import numpy as np
 class FrameReadError(Exception):
     pass
 
-def get_frame(input_video, frame = 0):
+def get_frame(input_video, frame_number = 0):
     cap = cv2.VideoCapture(input_video)
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
